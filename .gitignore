@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+# folders in the hardware/ project
+hardware/hardware_frontend/compiled/*
+hardware/hardware_frontend/bin/*
+hardware/hardware_frontend/bld/*
+hardware/hardware_frontend/*.jsproj.user
