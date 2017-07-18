@@ -33,3 +33,10 @@ hardware/hardware_frontend/compiled/*
 hardware/hardware_frontend/bin/*
 hardware/hardware_frontend/bld/*
 hardware/hardware_frontend/*.jsproj.user
+
+# folders in the cloud/ project
+cloud/PillDispenserWeb/node_modules/**
+cloud/PillDispenserWeb/bin/**
+cloud/PillDispenserWeb/obj/**
+cloud/PillDispenserWeb.Tests/bin/**
+cloud/PillDispenserWeb.Tests/obj/**
