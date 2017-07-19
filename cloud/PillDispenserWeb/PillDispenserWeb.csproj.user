@@ -3,6 +3,7 @@
   <PropertyGroup>
     <WebStackScaffolding_DependencyDialogWidth>600</WebStackScaffolding_DependencyDialogWidth>
     <ActiveDebugProfile>IIS Express Development</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>Pillbox-Capstone - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
