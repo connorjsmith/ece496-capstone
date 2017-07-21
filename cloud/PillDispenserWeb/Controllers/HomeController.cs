@@ -19,6 +19,12 @@ namespace PillDispenserWeb
             return View("/Views/Home/Index.cshtml");
         }
 
+        [HttpGet("antd-exploration")]
+        public async Task<IActionResult> Antd()
+        {
+            return View("/Views/Frontend Explorations/antd.cshtml");
+        }
+
         #endregion Homepage Routes
 
         #region Example Secondary Route

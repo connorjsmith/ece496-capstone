@@ -2,11 +2,16 @@
 "use strict";
 
 var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
-    entry: "./Javascript/index.jsx",
+    entry: {
+        home: "./Javascript/index.jsx",
+        antd: "./Javascript/antd.jsx"
+    },
     output: {
-        filename: "./wwwroot/dist/bundle.js"
+        path: path.join(__dirname, "wwwroot", "dist"),
+        filename: "[name]-dist.js"
     },
     devServer: {
         contentBase: ".",
