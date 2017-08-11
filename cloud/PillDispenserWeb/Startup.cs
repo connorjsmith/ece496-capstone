@@ -16,7 +16,8 @@ namespace PillDispenserWeb
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+
+        public void ConfigureProductionServices(IServiceCollection services)
         {
             // Set up the database we want to use
             services.AddDbContext<ApplicationDbContext>(
@@ -28,7 +29,27 @@ namespace PillDispenserWeb
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            // Data Accessors
+            // Production Data Accessors
+            services.AddSingleton<IDoctorRepository, DoctorRepositoryImpl>();
+            services.AddSingleton<IMedicationRepository, MedicationRepositoryImpl>();
+            services.AddSingleton<IPatientRepository, PatientRepositoryImpl>();
+
+            services.AddMvc();
+        }
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            // Set up the database we want to use
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer("Server={localdb}\\mssqllocaldb;Database=YoutubeWeb")
+            );
+
+            // Tell the program that we want to use the newly registered ApplicationDbContext for our ApplicaitonUser store
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Development Data Accessors
             services.AddSingleton<IDoctorRepository, DoctorRepositoryImpl>();
             services.AddSingleton<IMedicationRepository, MedicationRepositoryImpl>();
             services.AddSingleton<IPatientRepository, PatientRepositoryImpl>();
