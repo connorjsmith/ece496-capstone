@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PillDispenserWeb.Models.Interfaces
 {
-    interface IPatientRepository
+    public interface IPatientRepository
     {
         Patient PatientById(string patientId);
         IEnumerable<Patient> PatientsByPatientIds(IEnumerable<string> patientIds);

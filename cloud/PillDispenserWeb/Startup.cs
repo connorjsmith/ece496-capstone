@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PillDispenserWeb.Models;
 using PillDispenserWeb.Models.Identity;
+using PillDispenserWeb.Models.Implementations;
+using PillDispenserWeb.Models.Interfaces;
 
 namespace PillDispenserWeb
 {
@@ -25,6 +27,12 @@ namespace PillDispenserWeb
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            // Data Accessors
+            services.AddSingleton<IDoctorRepository, DoctorRepositoryImpl>();
+            services.AddSingleton<IMedicationRepository, MedicationRepositoryImpl>();
+            services.AddSingleton<IPatientRepository, PatientRepositoryImpl>();
+
             services.AddMvc();
         }
 

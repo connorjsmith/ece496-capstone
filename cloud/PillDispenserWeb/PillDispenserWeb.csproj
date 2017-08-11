@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Javascript\AnotherComponent.jsx" />
-    <Content Include="Javascript\index.jsx" />
+    <Content Include="Frontend\Javascript\AnotherComponent.jsx" />
+    <Content Include="Frontend\Javascript\index.jsx" />
     <Content Include="wwwroot\home\img\temp.png" />
   </ItemGroup>
   <ItemGroup>
@@ -21,7 +21,6 @@
     <PackageReference Include="Npm" Version="3.5.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\home\css\" />
   </ItemGroup>
 
