@@ -7,10 +7,10 @@ namespace PillDispenserWeb.Models.DataTypes
 {
     public class Patient
     {
-        string Name;
-        string PhoneNumber;
-        string EmailAddress;
-        string[] CaregiverIds;
-        string[] DoctorIds;
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public string[] CaregiverIds { get; set; }
+        public string[] DoctorIds { get; set; }
     }
 }

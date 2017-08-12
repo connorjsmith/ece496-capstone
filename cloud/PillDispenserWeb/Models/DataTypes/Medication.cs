@@ -7,8 +7,8 @@ namespace PillDispenserWeb.Models.DataTypes
 {
     public class Medication
     {
-        public string MedicationId;
-        public string PlaintextName;
-        public float DosageInMg;
+        public string MedicationId { get; set; }
+        public string PlaintextName { get; set; }
+        public float DosageInMg { get; set; }
     }
 }

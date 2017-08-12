@@ -9,6 +9,11 @@ namespace PillDispenserWeb.Models.Implementations
 {
     public class DoctorRepositoryImpl : IDoctorRepository
     {
+        public DoctorRepositoryImpl(IQueryable<Doctor> repository)
+        {
+
+        }
+
         public Doctor DoctorById(string doctorId)
         {
             throw new NotImplementedException();
