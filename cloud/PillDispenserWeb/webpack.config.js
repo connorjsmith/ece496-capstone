@@ -6,8 +6,8 @@ var path = require("path");
 
 module.exports = {
     entry: {
-        home: "./Javascript/index.jsx",
-        antd: "./Javascript/antd.jsx"
+        home: "./Frontend/Javascript/index.jsx",
+        antd: "./Frontend/Javascript/antd.jsx"
     },
     output: {
         path: path.join(__dirname, "wwwroot", "dist"),

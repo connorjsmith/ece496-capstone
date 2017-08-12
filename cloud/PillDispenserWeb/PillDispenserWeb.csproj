@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Javascript\AnotherComponent.jsx" />
-    <Content Include="Javascript\index.jsx" />
+    <Content Include="Frontend\Javascript\AnotherComponent.jsx" />
+    <Content Include="Frontend\Javascript\index.jsx" />
     <Content Include="wwwroot\home\img\temp.png" />
   </ItemGroup>
   <ItemGroup>
@@ -17,11 +17,10 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.1.0" />
-    <PackageReference Include="Node.js" Version="4.2.3" />
+    <PackageReference Include="Node.js" Version="5.3.0" />
     <PackageReference Include="Npm" Version="3.5.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="wwwroot\home\css\" />
   </ItemGroup>
 
