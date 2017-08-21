@@ -2,14 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <Configurations>Debug;Release;JestTests</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Frontend\Javascript\AnotherComponent.jsx" />
     <Content Include="Frontend\Javascript\index.jsx" />
-    <Content Include="wwwroot\home\img\temp.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="GenFu" Version="1.4.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.1" />

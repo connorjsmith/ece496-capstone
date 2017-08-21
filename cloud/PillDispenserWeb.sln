@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PillDispenserWeb", "PillDispenserWeb\PillDispenserWeb.csproj", "{3775F608-855F-4BF9-BD32-05146DCBF72A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PillDispenserWeb.Tests", "PillDispenserWeb.Tests\PillDispenserWeb.Tests.csproj", "{D4F82E8F-F6D9-480E-8812-01186D863231}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PillDispenserWeb.Tests", "PillDispenserWeb.Tests\PillDispenserWeb.Tests.csproj", "{D4F82E8F-F6D9-480E-8812-01186D863231}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F924692F-525E-478E-B6D5-6D08CE7255A9}
 	EndGlobalSection
 EndGlobal

@@ -14,14 +14,14 @@ namespace PillDispenserWeb.Tests.Models.MockRepositories
         public IEnumerable<Doctor> doctors = new List<Doctor>();
         public MockDoctorRepository (int NumMockDoctors = 40)
         {
-            A.Configure<Doctor>()
-                .Fill(d => d.DoctorId, () => Guid.NewGuid().ToString())
-                .Fill(d => d.PhoneNumber).AsPhoneNumber()
-                .Fill(d => d.FirstName).AsFirstName()
-                .Fill(d => d.LastName).AsLastName()
-                .Fill(d => d.EmailAddress, d => $"{d.FirstName}.{d.LastName}@email.com");
-
-            doctors = A.ListOf<Doctor>(NumMockDoctors);
+            var _doctors = new List<Doctor>(NumMockDoctors);
+            for (int i = 0; i < NumMockDoctors; ++i)
+            {
+                var doc = new Doctor();
+                doc.FirstName = "MockDoctorFirstName" + i;
+                doc.LastName = "MockDoctorLastName" + i;
+            }
+            doctors = _doctors;
         }
 
         public Doctor DoctorById(string doctorId)

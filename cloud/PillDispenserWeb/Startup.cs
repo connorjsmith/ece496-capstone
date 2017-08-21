@@ -9,6 +9,10 @@ using PillDispenserWeb.Models;
 using PillDispenserWeb.Models.Identity;
 using PillDispenserWeb.Models.Implementations;
 using PillDispenserWeb.Models.Interfaces;
+using GenFu;
+using PillDispenserWeb.Models.DataTypes;
+using System;
+using System.Linq;
 
 namespace PillDispenserWeb
 {
@@ -30,9 +34,11 @@ namespace PillDispenserWeb
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Production Data Accessors
-            services.AddSingleton<IDoctorRepository, DoctorRepositoryImpl>();
-            services.AddSingleton<IMedicationRepository, MedicationRepositoryImpl>();
-            services.AddSingleton<IPatientRepository, PatientRepositoryImpl>();
+            // TODO: this will break production builds until we add singletons for IQueryable<Doctor> etc. to point to our real databases
+            services.AddSingleton<IDoctorRepository>(new DoctorRepositoryImpl(null));
+            services.AddSingleton<IMedicationRepository>(new MedicationRepositoryImpl(null));
+            services.AddSingleton<IPatientRepository>(new PatientRepositoryImpl(null));
+
 
             services.AddMvc();
         }
@@ -49,10 +55,46 @@ namespace PillDispenserWeb
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+
+            // Development mock data
+            var rng = new Random();
+            // 100 mock doctors
+            A.Configure<Doctor>()
+                .Fill(d => d.DoctorId, () => Guid.NewGuid().ToString())
+                .Fill(d => d.PhoneNumber).AsPhoneNumber()
+                .Fill(d => d.FirstName).AsFirstName()
+                .Fill(d => d.LastName).AsLastName()
+                .Fill(d => d.EmailAddress, d => $"{d.FirstName}.{d.LastName}@email.com");
+            IQueryable<Doctor> mockDoctorsRepo = A.ListOf<Doctor>(100).AsQueryable();
+
+            // 50 mock medications
+            A.Configure<Medication>()
+                .Fill(m => m.DosageInMg, () => (float)Math.Round(rng.NextDouble() * 100, 2))
+                .Fill(m => m.MedicationId, () => Guid.NewGuid().ToString())
+                .Fill(m => m.PlaintextName).AsLoremIpsumWords(3);
+            IQueryable<Medication> mockMedicationRepo = A.ListOf<Medication>(50).AsQueryable();
+
+            // 100 mock patients with doctors
+            A.Configure<Patient>()
+                .Fill(p => p.FirstName).AsFirstName()
+                .Fill(p => p.LastName).AsLastName()
+                .Fill(p => p.DoctorIds, () =>
+                {
+                    // Assign the patient between 1 and 5 random doctors
+                    int numDoctors = rng.Next(1, 5);
+                    string[] doctorIds = mockDoctorsRepo.OrderBy(x => rng.NextDouble()).Take(numDoctors).Select(d => d.DoctorId).ToArray();
+                    return doctorIds;
+                })
+                .Fill(p => p.PhoneNumber).AsPhoneNumber()
+                .Fill(p => p.EmailAddress, p => $"{p.FirstName}.{p.LastName}@email.com");
+            IQueryable<Patient> mockPatientRepo = A.ListOf<Patient>(100).AsQueryable();
+
+
+
             // Development Data Accessors
-            services.AddSingleton<IDoctorRepository, DoctorRepositoryImpl>();
-            services.AddSingleton<IMedicationRepository, MedicationRepositoryImpl>();
-            services.AddSingleton<IPatientRepository, PatientRepositoryImpl>();
+            services.AddSingleton<IDoctorRepository>(new DoctorRepositoryImpl(mockDoctorsRepo));
+            services.AddSingleton<IMedicationRepository>(new MedicationRepositoryImpl(mockMedicationRepo));
+            services.AddSingleton<IPatientRepository>(new PatientRepositoryImpl(mockPatientRepo));
 
             services.AddMvc();
         }
