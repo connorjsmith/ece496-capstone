@@ -26,8 +26,8 @@ namespace PillDispenserWeb.Tests.Controllers
 
         #region Repositories and Controllers
 
-        IDoctorRepository doctorRepository;
-        HomeController controller;
+        private IDoctorRepository doctorRepository;
+        private HomeController controller;
 
         #endregion
 
