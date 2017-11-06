@@ -20,6 +20,8 @@ namespace PillDispenserWeb.Tests.Models.MockRepositories
                 var doc = new Doctor();
                 doc.FirstName = "MockDoctorFirstName" + i;
                 doc.LastName = "MockDoctorLastName" + i;
+                doc.DoctorId = i.ToString();
+                _doctors.Add(doc);
             }
             doctors = _doctors;
         }
