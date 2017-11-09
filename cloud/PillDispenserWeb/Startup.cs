@@ -13,6 +13,7 @@ using GenFu;
 using PillDispenserWeb.Models.DataTypes;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace PillDispenserWeb
 {
@@ -24,9 +25,11 @@ namespace PillDispenserWeb
         public void ConfigureProductionServices(IServiceCollection services)
         {
             // Set up the database we want to use
+            /*
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer("Server={localdb}\\mssqllocaldb;Database=YoutubeWeb")
             );
+            */
 
             // Tell the program that we want to use the newly registered ApplicationDbContext for our ApplicaitonUser store
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
