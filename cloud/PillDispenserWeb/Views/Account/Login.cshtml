@@ -1,0 +1,24 @@
+﻿@using PillDispenserWeb.Models.Identity;
+
+@model LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <h1> this is the login page </h1>
+    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+        <label for="Email">Email Address</label><input name="Email" />
+        <label for="Password">Password</label><input name="Password" />
+        <button type="submit" class="btn btn-default">Login</button>
+    </form>
+
+</body>
+</html>

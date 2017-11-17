@@ -44,6 +44,11 @@ namespace PillDispenserWeb.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegistrationViewModel model, string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                // Cannot register for new account if already signed in
+                return RedirectToAction("Index", "Home");
+            }
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -76,17 +81,36 @@ namespace PillDispenserWeb.Controllers
         [AllowAnonymous]
         [HttpGet("Login")]
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public IActionResult Login(string returnUrl = null)
         {
-            var user = await GetCurrentUserAsync();
-            return View();
+            ViewData["ReturnUrl"] = returnUrl;
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                // user is already signed in, go home
+                return RedirectToAction("Index", "Home");
+            }
+            // prompt user to signin
+            return View("Login", new LoginViewModel());
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<IActionResult> DoLogin(LoginViewModel model, string returnUrl = "/")
+        {
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+            if (result.Succeeded)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+            ModelState.AddModelError("login failure", "Password or Username was Incorrect.");
+            return View("Login", model);
         }
 
         // GET: /Account/Logout
         [HttpGet("Logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             // return Redirect("/Account/Login");
             return View("Index");
         }
