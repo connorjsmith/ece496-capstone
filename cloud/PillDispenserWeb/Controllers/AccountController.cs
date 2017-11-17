@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace PillDispenserWeb.Controllers
 {
     [Route("Account")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,6 +30,7 @@ namespace PillDispenserWeb.Controllers
         #region Registration Routes
 
         // GET: /Account/Register
+        [AllowAnonymous]
         [HttpGet("Register")]
         public IActionResult Register()
         {
@@ -71,12 +73,22 @@ namespace PillDispenserWeb.Controllers
         #region Login Routes
 
         // GET: /Account, /Account/Login
+        [AllowAnonymous]
         [HttpGet("Login")]
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
             return View();
+        }
+
+        // GET: /Account/Logout
+        [HttpGet("Logout")]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            // return Redirect("/Account/Login");
+            return View("Index");
         }
 
         #endregion Login Routes

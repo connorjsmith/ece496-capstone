@@ -10,9 +10,9 @@
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <h4>Create a new account.</h4>
     <hr />
-    <input name="Email" />
-    <input name="Password" />
-    <input name="ConfirmPassword" />
+    <label for="Email">Email Address</label><input name="Email" />
+    <label for="Password">Password</label><input name="Password" />
+    <label for="ConfirmPassword">Confirm Password</label><input name="ConfirmPassword" />
     <button type="submit" class="btn btn-default">Register</button>
 </form>
 
