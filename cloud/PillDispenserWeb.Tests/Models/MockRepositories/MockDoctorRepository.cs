@@ -35,5 +35,10 @@ namespace PillDispenserWeb.Tests.Models.MockRepositories
         {
             return doctors.Where(d => doctorIds.Contains(d.DoctorId));
         }
+
+        public IEnumerable<Doctor> AllDoctors()
+        {
+            return doctors.AsEnumerable();
+        }
     }
 }

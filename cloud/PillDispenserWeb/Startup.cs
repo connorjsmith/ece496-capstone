@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace PillDispenserWeb
 {
@@ -58,7 +59,10 @@ namespace PillDispenserWeb
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+            });
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -96,6 +100,7 @@ namespace PillDispenserWeb
                 .Fill(d => d.PhoneNumber).AsPhoneNumber()
                 .Fill(d => d.FirstName).AsFirstName()
                 .Fill(d => d.LastName).AsLastName()
+                .Fill(d => d.Patients, () => new HashSet<Patient>())
                 .Fill(d => d.EmailAddress, d => $"{d.FirstName}.{d.LastName}@email.com");
             IQueryable<Doctor> mockDoctorsRepo = A.ListOf<Doctor>(100).AsQueryable();
 
@@ -110,15 +115,15 @@ namespace PillDispenserWeb
             A.Configure<Patient>()
                 .Fill(p => p.FirstName).AsFirstName()
                 .Fill(p => p.LastName).AsLastName()
-                .Fill(p => p.DoctorIds, () =>
-                {
-                    // Assign the patient between 1 and 5 random doctors
-                    int numDoctors = rng.Next(1, 5);
-                    string[] doctorIds = mockDoctorsRepo.OrderBy(x => rng.NextDouble()).Take(numDoctors).Select(d => d.DoctorId).ToArray();
-                    return doctorIds;
-                })
                 .Fill(p => p.PhoneNumber).AsPhoneNumber()
-                .Fill(p => p.EmailAddress, p => $"{p.FirstName}.{p.LastName}@email.com");
+                .Fill(p => p.EmailAddress, p => $"{p.FirstName}.{p.LastName}@email.com")
+                .Fill(p => p.Doctors, p =>
+                {
+                    int numDoctors = rng.Next(1, 5);
+                    var docList = new List<Doctor>(mockDoctorsRepo.OrderBy(x => rng.NextDouble()).Take(numDoctors).AsEnumerable());
+                    docList.ForEach(d => d.Patients.Add(p));
+                    return docList;
+                });
             IQueryable<Patient> mockPatientRepo = A.ListOf<Patient>(100).AsQueryable();
 
             // Development Data Accessors
