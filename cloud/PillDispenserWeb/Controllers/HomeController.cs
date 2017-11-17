@@ -48,6 +48,12 @@ namespace PillDispenserWeb
             return View("/Views/Other/Other.cshtml");
         }
 
+        [HttpGet("doctors")]
+        public JsonResult GetAllDoctors()
+        {
+            return Json(doctors.AllDoctors());
+        }
+
         #endregion Example Secondary Route
     }
 }

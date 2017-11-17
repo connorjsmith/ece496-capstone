@@ -10,5 +10,7 @@ namespace PillDispenserWeb.Models.Interfaces
     {
         Doctor DoctorById(string doctorId);
         IEnumerable<Doctor> DoctorsByIds(IEnumerable<string> doctorIds);
+
+        IEnumerable<Doctor> AllDoctors();
     }
 }
