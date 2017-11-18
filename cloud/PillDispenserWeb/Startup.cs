@@ -52,10 +52,7 @@ namespace PillDispenserWeb
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

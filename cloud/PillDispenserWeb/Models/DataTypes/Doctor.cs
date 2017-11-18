@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PillDispenserWeb.Models.Relations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace PillDispenserWeb.Models.DataTypes
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public List<Patient> Patients { get; set; }
+        public List<PatientDoctor> Patients { get; set; }
 
     }
 }

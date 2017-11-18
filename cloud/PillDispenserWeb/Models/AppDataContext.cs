@@ -1,5 +1,6 @@
 ﻿using PillDispenserWeb.Models.DataTypes;
 using Microsoft.EntityFrameworkCore;
+using PillDispenserWeb.Models.Relations;
 
 namespace PillDispenserWeb.Models
 {
@@ -7,6 +8,7 @@ namespace PillDispenserWeb.Models
     {
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<PatientDoctor> PatientDoctor { get; set; }
         public DbSet<Medication> Medications { get; set; }
         public AppDataContext(DbContextOptions options) : base(options) { }
         public AppDataContext() { } // used for tests only
@@ -14,11 +16,18 @@ namespace PillDispenserWeb.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Define relationships here
-            modelBuilder.Entity<Doctor>()
-                .HasMany<Patient>(d => d.Patients);
+            modelBuilder.Entity<PatientDoctor>()
+                .HasKey(t => new { t.PatientId, t.DoctorId});
 
-            modelBuilder.Entity<Patient>()
-                .HasMany<Doctor>(p => p.Doctors);
+            modelBuilder.Entity<PatientDoctor>()
+                .HasOne(pd => pd.Patient)
+                .WithMany(p => p.Doctors)
+                .HasForeignKey(pd => pd.PatientId);
+
+            modelBuilder.Entity<PatientDoctor>()
+                .HasOne(pd => pd.Doctor)
+                .WithMany(p => p.Patients)
+                .HasForeignKey(pd => pd.DoctorId);
         }
     }
 }

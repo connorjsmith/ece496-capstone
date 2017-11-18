@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using PillDispenserWeb.Models;
+using PillDispenserWeb.Models.Relations;
 
 namespace PillDispenserWeb.Tests.Controllers
 {
@@ -62,9 +63,11 @@ namespace PillDispenserWeb.Tests.Controllers
 
             var fakeDoctorList = new List<Doctor>()
             {
-                new Doctor{FirstName = "Albert", LastName = "Alderson", DoctorId = 1, EmailAddress = "Albert.Alderson@email.com", Patients=new List<Patient>(fakePatientList.Take(1))},
-                new Doctor{FirstName = "Betty", LastName = "Brown", DoctorId = 2, EmailAddress = "Betty.Brown@email.com", Patients=new List<Patient>(fakePatientList.Take(2))},
-                new Doctor{FirstName = "Calvin", LastName = "Crawford", DoctorId = 3, EmailAddress = "Calvin.Crawford@email.com", Patients=new List<Patient>(fakePatientList.Take(3))}
+                new Doctor{FirstName = "Albert", LastName = "Alderson", DoctorId = 1, EmailAddress = "Albert.Alderson@email.com" },
+                new Doctor{
+                    FirstName = "Betty", LastName = "Brown", DoctorId = 2, EmailAddress = "Betty.Brown@email.com",
+                },
+                new Doctor{FirstName = "Calvin", LastName = "Crawford", DoctorId = 3, EmailAddress = "Calvin.Crawford@email.com"}
             }.AsQueryable();
 
             var mockDoctorSet = new Mock<DbSet<Doctor>>();
