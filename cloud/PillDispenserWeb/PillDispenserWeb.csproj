@@ -10,7 +10,6 @@
     <Content Include="Frontend\Javascript\index.jsx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="GenFu" Version="1.4.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />

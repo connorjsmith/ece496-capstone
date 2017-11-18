@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using PillDispenserWeb.Models.Interfaces;
+using PillDispenserWeb.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,13 +13,12 @@ namespace PillDispenserWeb
     public class HomeController : Controller
     {
 
-        private IDoctorRepository doctors;
-
+        private AppDataContext appDataContext;
         #region Setup and Teardown
-        public HomeController(IDoctorRepository _doctors)
+        public HomeController(AppDataContext _appDataContext)
         {
             // Populated via dependency injection in Startup.cs
-            doctors = _doctors;
+            appDataContext = _appDataContext;
         }
 
         #endregion
@@ -51,7 +50,7 @@ namespace PillDispenserWeb
         [HttpGet("doctors")]
         public JsonResult GetAllDoctors()
         {
-            return Json(doctors.AllDoctors());
+            return Json(appDataContext.Doctors.ToList());
         }
 
         #endregion Example Secondary Route

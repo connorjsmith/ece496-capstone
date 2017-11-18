@@ -8,7 +8,7 @@ namespace PillDispenserWeb.Models.DataTypes
 {
     public class Doctor
     {
-        public string DoctorId { get; set; }
+        public long DoctorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName {
@@ -17,7 +17,7 @@ namespace PillDispenserWeb.Models.DataTypes
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public ICollection<Patient> Patients { get; set; }
+        public List<Patient> Patients { get; set; }
 
     }
 }

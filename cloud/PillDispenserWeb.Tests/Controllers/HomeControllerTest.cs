@@ -2,15 +2,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Moq;
-using System.Net.Http;
 using NUnit.Framework;
-using PillDispenserWeb.Models.Interfaces;
 using PillDispenserWeb.Models.DataTypes;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using GenFu;
-using PillDispenserWeb.Tests.Models.MockRepositories;
+using Microsoft.EntityFrameworkCore;
+using PillDispenserWeb.Models;
 
 namespace PillDispenserWeb.Tests.Controllers
 {
@@ -26,7 +23,6 @@ namespace PillDispenserWeb.Tests.Controllers
 
         #region Repositories and Controllers
 
-        private IDoctorRepository doctorRepository;
         private HomeController controller;
 
         #endregion
@@ -56,8 +52,40 @@ namespace PillDispenserWeb.Tests.Controllers
         [SetUp]
         public void SetupEach()
         {
-            doctorRepository = new MockDoctorRepository(NumMockDoctors);
-            controller = new HomeController(doctorRepository);
+            // TODO we can use GenFu here to create good test sample data
+            var fakePatientList = new List<Patient>()
+            {
+                new Patient{FirstName = "Amy", LastName = "Adams", PatientId = 1, EmailAddress="Amy.Adams@email.com"},
+                new Patient{FirstName = "Bert", LastName = "Benson", PatientId = 2, EmailAddress="Bert.Benson@email.com"},
+                new Patient{FirstName = "Cooper", LastName = "Calvert", PatientId = 3, EmailAddress="Cooper.Calvert@email.com"}
+            }.AsQueryable();
+
+            var fakeDoctorList = new List<Doctor>()
+            {
+                new Doctor{FirstName = "Albert", LastName = "Alderson", DoctorId = 1, EmailAddress = "Albert.Alderson@email.com", Patients=new List<Patient>(fakePatientList.Take(1))},
+                new Doctor{FirstName = "Betty", LastName = "Brown", DoctorId = 2, EmailAddress = "Betty.Brown@email.com", Patients=new List<Patient>(fakePatientList.Take(2))},
+                new Doctor{FirstName = "Calvin", LastName = "Crawford", DoctorId = 3, EmailAddress = "Calvin.Crawford@email.com", Patients=new List<Patient>(fakePatientList.Take(3))}
+            }.AsQueryable();
+
+            var mockDoctorSet = new Mock<DbSet<Doctor>>();
+            var mockPatientSet = new Mock<DbSet<Patient>>();
+            var contextBuilder = new DbContextOptionsBuilder();
+            var appDataContext = new AppDataContext();
+
+            mockDoctorSet.As<IQueryable<Doctor>>().Setup(d => d.Provider).Returns(fakeDoctorList.Provider);
+            mockDoctorSet.As<IQueryable<Doctor>>().Setup(d => d.Expression).Returns(fakeDoctorList.Expression);
+            mockDoctorSet.As<IQueryable<Doctor>>().Setup(d => d.ElementType).Returns(fakeDoctorList.ElementType);
+            mockDoctorSet.As<IQueryable<Doctor>>().Setup(d => d.GetEnumerator()).Returns(() => fakeDoctorList.GetEnumerator());
+
+            mockPatientSet.As<IQueryable<Patient>>().Setup(d => d.Provider).Returns(fakePatientList.Provider);
+            mockPatientSet.As<IQueryable<Patient>>().Setup(d => d.Expression).Returns(fakePatientList.Expression);
+            mockPatientSet.As<IQueryable<Patient>>().Setup(d => d.ElementType).Returns(fakePatientList.ElementType);
+            mockPatientSet.As<IQueryable<Patient>>().Setup(d => d.GetEnumerator()).Returns(() => fakePatientList.GetEnumerator());
+
+            appDataContext.Doctors = mockDoctorSet.Object;
+            appDataContext.Patients = mockPatientSet.Object;
+
+            controller = new HomeController(appDataContext);
         }
         #endregion
     }
