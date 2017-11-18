@@ -25,7 +25,6 @@ namespace PillDispenserWeb
 
         public void ConfigureCommonServices(IServiceCollection services)
         {
-
             // Tell the program that we want to use the newly registered ApplicationDbContext for our ApplicaitonUser store
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
 
@@ -96,7 +95,19 @@ namespace PillDispenserWeb
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-
+            // Automatically apply any pending migrations
+            try
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<IdentityContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<AppDataContext>().Database.Migrate();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO log something here
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
