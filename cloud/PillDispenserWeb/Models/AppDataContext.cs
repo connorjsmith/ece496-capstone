@@ -16,6 +16,15 @@ namespace PillDispenserWeb.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Define relationships here
+            modelBuilder.Entity<Patient>()
+                .HasKey(t => t.PatientId);
+
+            modelBuilder.Entity<Doctor>()
+                .HasKey(t => t.DoctorId);
+
+            modelBuilder.Entity<Medication>()
+                .HasKey(t => t.MedicationId);
+
             modelBuilder.Entity<PatientDoctor>()
                 .HasKey(t => new { t.PatientId, t.DoctorId});
 

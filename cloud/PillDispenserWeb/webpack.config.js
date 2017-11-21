@@ -1,4 +1,4 @@
-/// <binding AfterBuild='Watch - Development' />
+/// <binding />
 "use strict";
 
 var webpack = require("webpack");
