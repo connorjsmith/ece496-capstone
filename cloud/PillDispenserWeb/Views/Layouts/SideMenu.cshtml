@@ -1,0 +1,25 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+ }
+
+<html>
+<head>
+    <link rel="stylesheet" href="@Url.Content("~/home/css/antd.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/partials/css/sidemenu.css")" type="text/css" />
+</head>
+<body>
+    <div id="topmenu-container"> idk probably links to adjust user settings and logout</div>
+    <div id="sidemenu-container">
+        <div id="sidemenu-logo"> Logo thingy? </div>
+        <div id="react-sidemenu-target"></div>
+    </div>
+    <div id="content">
+        @RenderBody()
+    </div>
+    <script src="@Url.Content("~/dist/side_menu-dist.js")"></script>
+</body>
+</html>

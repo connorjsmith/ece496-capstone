@@ -1,4 +1,4 @@
-﻿/// <binding />
+/// <binding AfterBuild='Watch - Development' />
 "use strict";
 
 var webpack = require("webpack");
@@ -7,7 +7,8 @@ var path = require("path");
 module.exports = {
     entry: {
         home: "./Frontend/Javascript/index.jsx",
-        antd: "./Frontend/Javascript/antd.jsx"
+        antd: "./Frontend/Javascript/antd.jsx",
+        side_menu: "./Frontend/Javascript/SideMenu.jsx"
     },
     output: {
         path: path.join(__dirname, "wwwroot", "dist"),
