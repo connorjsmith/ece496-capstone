@@ -11,9 +11,10 @@ using System;
 namespace PillDispenserWeb.Migrations.AppData
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20171123041121_InitPrescription")]
+    partial class InitPrescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,22 +37,6 @@ namespace PillDispenserWeb.Migrations.AppData
                     b.HasKey("DoctorId");
 
                     b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("PillDispenserWeb.Models.DataTypes.Dose", b =>
-                {
-                    b.Property<string>("DoseId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AssociatedRecurrenceRecurrenceId");
-
-                    b.Property<DateTimeOffset>("TimeTaken");
-
-                    b.HasKey("DoseId");
-
-                    b.HasIndex("AssociatedRecurrenceRecurrenceId");
-
-                    b.ToTable("Dose");
                 });
 
             modelBuilder.Entity("PillDispenserWeb.Models.DataTypes.Medication", b =>
@@ -104,15 +89,11 @@ namespace PillDispenserWeb.Migrations.AppData
                     b.Property<string>("PrescriptionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MedicationId");
-
                     b.Property<long?>("PatientId");
 
                     b.Property<long?>("PrescribingDoctorDoctorId");
 
                     b.HasKey("PrescriptionId");
-
-                    b.HasIndex("MedicationId");
 
                     b.HasIndex("PatientId");
 
@@ -141,13 +122,6 @@ namespace PillDispenserWeb.Migrations.AppData
                     b.ToTable("Recurrence");
                 });
 
-            modelBuilder.Entity("PillDispenserWeb.Models.DataTypes.Dose", b =>
-                {
-                    b.HasOne("PillDispenserWeb.Models.Relations.Prescription+Recurrence", "AssociatedRecurrence")
-                        .WithMany()
-                        .HasForeignKey("AssociatedRecurrenceRecurrenceId");
-                });
-
             modelBuilder.Entity("PillDispenserWeb.Models.Relations.PatientDoctor", b =>
                 {
                     b.HasOne("PillDispenserWeb.Models.DataTypes.Doctor", "Doctor")
@@ -163,10 +137,6 @@ namespace PillDispenserWeb.Migrations.AppData
 
             modelBuilder.Entity("PillDispenserWeb.Models.Relations.Prescription", b =>
                 {
-                    b.HasOne("PillDispenserWeb.Models.DataTypes.Medication", "Medication")
-                        .WithMany()
-                        .HasForeignKey("MedicationId");
-
                     b.HasOne("PillDispenserWeb.Models.DataTypes.Patient")
                         .WithMany("Prescriptions")
                         .HasForeignKey("PatientId");
