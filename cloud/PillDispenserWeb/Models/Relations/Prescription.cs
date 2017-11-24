@@ -38,9 +38,8 @@ namespace PillDispenserWeb.Models.Relations
         #endregion Helper Classes
 
         #region Helper Functions
-        public DateTimeOffset NextRecurrence()
+        public DateTimeOffset NextRecurrence(DateTimeOffset now)
         {
-            var now = DateTimeOffset.Now;
             var activeRecurrences = Recurrences.Where(r => r.Start <= now && r.End >= now);
             var nextFutureRecurrences = activeRecurrences.Select(r =>
             {

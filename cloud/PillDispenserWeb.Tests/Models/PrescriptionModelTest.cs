@@ -37,5 +37,35 @@ namespace PillDispenserWeb.Tests.Models
             // negative date ranges return zero
             Assert.AreEqual(0, recurrence.GetExpectedNumberOfDoses(recurrenceStart.AddDays(10), recurrenceStart.AddDays(1)));
         }
+        [Test]
+        public void Prescription_NextRecurrence()
+        {
+            // 1 year long recurrence, happening every day
+            var recurrenceStart = new DateTimeOffset(2017, 01, 01, 0, 0, 0, TimeSpan.Zero);
+            var recurrenceEnd = new DateTimeOffset(2018, 01, 01, 0, 0, 0, TimeSpan.Zero);
+            var recurrenceInterval = new TimeSpan(1, 0, 0, 0); // one day
+            var recurrence_daily = new Prescription.Recurrence
+            {
+                Start = recurrenceStart,
+                End = recurrenceEnd,
+                Interval = recurrenceInterval,
+                Doses = new List<Dose>(), // empty list
+            };
+            var recurrence_7hours = new Prescription.Recurrence
+            {
+                Start = recurrenceStart,
+                End = recurrenceEnd,
+                Interval = new TimeSpan(7, 0, 0), // every 7 hours
+                Doses = new List<Dose>(),
+            };
+            var prescription = new Prescription { Recurrences = new List<Prescription.Recurrence> { recurrence_daily } };
+            var currentTime = recurrenceStart.AddSeconds(1);
+            var expectedNextRecurrence = new DateTimeOffset(2017, 01, 02, 0, 0, 0, TimeSpan.Zero);
+            Assert.AreEqual(expectedNextRecurrence, prescription.NextRecurrence(currentTime));
+            prescription.Recurrences = new List<Prescription.Recurrence> { recurrence_daily, recurrence_7hours };
+            
+            Assert.AreEqual(recurrenceStart.AddHours(7), prescription.NextRecurrence(currentTime));
+        }
+
     }
 }
