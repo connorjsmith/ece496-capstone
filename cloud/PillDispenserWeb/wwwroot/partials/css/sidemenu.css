@@ -1,4 +1,9 @@
-﻿#sidemenu-logo {
+﻿.ant-menu-item .anticon + span, .ant-menu-submenu-title .anticon + span {
+    line-height: 42px !important;
+}
+
+
+#sidemenu-logo {
     width: 100%;
     background-color: #fff;
     height: 64px;

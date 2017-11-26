@@ -26,9 +26,14 @@ module.exports = {
                 loader: "babel-loader",
                 exclude: /(node_modules|bower_components)/,
                 query: {
-                    presets: ['env', 'react']
+                    presets: ['env', 'react'],
+                    plugins: [["import", { "libraryName": "antd", "style": "css" }]]
                 }
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
             }
-        ]
+        ],
     }
 };
