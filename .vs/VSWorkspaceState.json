@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\cloud",
+    "\\cloud\\PillDispenserWeb",
+    "\\hardware",
+    "\\hardware\\hardware_frontend",
+    "\\hardware\\hardware_frontend\\css",
+    "\\hardware\\hardware_frontend\\js"
+  ],
+  "SelectedNode": "\\cloud\\PillDispenserWeb.sln",
+  "PreviewInSolutionExplorer": false
+}
