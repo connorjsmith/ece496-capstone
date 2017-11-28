@@ -42,3 +42,4 @@ cloud/PillDispenserWeb/obj/**
 cloud/PillDispenserWeb.Tests/bin/**
 cloud/PillDispenserWeb.Tests/obj/**
 cloud/.vs/**
+/cloud/PillDispenserWeb/wwwroot/dist
