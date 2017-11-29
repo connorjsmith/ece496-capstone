@@ -4,7 +4,7 @@ import { Card, Spin } from 'antd';
 
 const defaultCardWidth = 500;
 const commonCardConfig = {
-    noHovering: true,
+    noHovering: false,
     bordered: true
 }
 const commonChartConfig = {

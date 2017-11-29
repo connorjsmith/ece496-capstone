@@ -18,15 +18,15 @@ let pieConfig = {
         }, {
             name: 'Yes',
             y: 44.00,
-            sliced: true,
-            selected: true
+            sliced: false,
+            selected: false
         }]
     }]
 };
 
 let scatterConfig = {
     series: [{
-        name: 'Druggolo 1',
+        name: 'Epinephrine',
         color: 'rgba(223, 83, 83, .5)',
         data: [
             { name: 'Monday', y: Date.UTC(2017, 1, 1, 9, 30) },

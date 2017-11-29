@@ -4,7 +4,7 @@ import { Card, Spin } from 'antd';
 
 const defaultCardWidth = 500;
 const commonCardConfig = {
-    noHovering: true,
+    noHovering: false,
     bordered: true
 }
 
@@ -38,12 +38,12 @@ const scatterPlotConfig = {
         type: 'datetime'
     },
     legend: {
-        layout: 'vertical',
-        align: 'left',
-        verticalAlign: 'top',
-        x: 100,
-        y: 100,
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        y: 10,
         floating: true,
+        enabled: true,
         backgroundColor: '#FFFFFF',
         borderWidth: 1
     },
@@ -64,10 +64,6 @@ const scatterPlotConfig = {
                         enabled: false
                     }
                 }
-            },
-            tooltip: {
-                headerFormat: '<b>{series.name</b><br>}',
-                pointFormat: '{point.x}th day, {point.y}th time'
             }
         }
     }

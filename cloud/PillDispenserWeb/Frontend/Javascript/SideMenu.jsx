@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 // TODO: should change this to proper antd/lib/** imports to reduce dist.js size
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Avatar, Spin } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
 const SubMenu = Menu.SubMenu;
@@ -20,6 +20,7 @@ class Sider extends React.Component {
                 defaultSelectedKeys={['0']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
+                theme='dark'
             >
                 <Menu.Item key="0"><Icon type="appstore" />Dashboard</Menu.Item>
             </Menu>
@@ -52,5 +53,21 @@ class Sider extends React.Component {
                 */
     }
 }
-var mountNode = document.getElementById("react-sidemenu-target");
-ReactDOM.render(<Sider />, mountNode)
+
+class Header extends React.Component {
+    render() {
+        return (
+            <div style={{ marginLeft: 'auto', marginRight: '16px', 'display': 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <span style={{ paddingRight: '12px' }}> Hello Dr. H. Timorabadi! </span>
+                <Avatar size='large' src="http://news.engineering.utoronto.ca/files/2016/10/hamidcircle.png" />
+            </div>
+        );
+    }
+}
+
+var siderMountNode = document.getElementById("react-sidemenu-target");
+var headerMountNode = document.getElementById("topmenu-container");
+var spinnerNode = document.getElementById("main-spinner");
+ReactDOM.render(<Spin style={{ position: 'relative', top: '-32px', transform: 'scale(2)' }} size="large" />, spinnerNode);
+ReactDOM.render(<Sider />, siderMountNode);
+ReactDOM.render(<Header />, headerMountNode);
