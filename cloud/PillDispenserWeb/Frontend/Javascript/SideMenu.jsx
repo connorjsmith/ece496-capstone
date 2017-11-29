@@ -17,10 +17,14 @@ class Sider extends React.Component {
             <Menu
                 onClick={this.handleClick}
                 style={{ width: 240, minHeight: '100vh' }}
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['0']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
             >
+                <Menu.Item key="0"><Icon type="appstore" />Dashboard</Menu.Item>
+            </Menu>
+        );
+        /*
                 <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
                     <MenuItemGroup key="g1" title="Item 1">
                         <Menu.Item key="1">Option 1</Menu.Item>
@@ -45,9 +49,8 @@ class Sider extends React.Component {
                     <Menu.Item key="11">Option 11</Menu.Item>
                     <Menu.Item key="12">Option 12</Menu.Item>
                 </SubMenu>
-            </Menu>
-        );
+                */
     }
 }
 var mountNode = document.getElementById("react-sidemenu-target");
-ReactDOM.render(<Sider/>, mountNode)
+ReactDOM.render(<Sider />, mountNode)

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Content Include="Frontend\Javascript\AnotherComponent.jsx" />
-    <Content Include="Frontend\Javascript\index.jsx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
