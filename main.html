@@ -11,11 +11,26 @@
 <script>
 	$(document).ready(function() {
 
-    // page is now ready, initialize the calendar...
+    // page is now ready, initialize the calendar...    
 
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
-    })
+    	// put your options and callbacks here
+
+	    events: [
+	        {
+	            title: 'Test Event',
+	            start: '2017-12-02',
+	            description: 'This is a test event'
+	        }
+	        // more events here
+	    ],
+	    /*eventRender: function(event, element) {
+	        element.qtip({
+	            content: event.description
+	        });
+	    }
+	    */
+	});
 
 });
 	
