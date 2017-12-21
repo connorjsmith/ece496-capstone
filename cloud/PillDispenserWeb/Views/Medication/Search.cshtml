@@ -24,6 +24,8 @@
                 <th>
                     @Html.DisplayNameFor(model => model.DosageInMg)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SideEffects)
             <th></th>
         </tr>
     </thead>
@@ -35,6 +37,14 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DosageInMg)
+            </td>
+            <td>
+                @{ var text = new List<string>(); }
+                @foreach (var effect in item.SideEffects)
+                {
+                    text.Add(effect.Text);
+                }
+                @Html.DisplayFor(modelItem => text)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MedicationId">Edit</a> |

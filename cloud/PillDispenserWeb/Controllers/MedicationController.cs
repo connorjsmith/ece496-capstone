@@ -27,7 +27,14 @@ namespace PillDispenserWeb.Controllers
         public async Task<IActionResult> Search()
         {
             // TODO show view for searching medications
-            return View(await _context.Medications.ToListAsync());
+            var allMeds = _context.Medications.Include(m=>m.SideEffects).ToList();
+            // var allMeds = _context.Medications.GroupJoin(
+                // _context.SideEffects,
+                // m=>m.MedicationId,
+                // s=>s.AssociatedMedication,
+                // (m, s) => new {Medication = m, SideEffects = s}
+                // ).Select()
+            return View(allMeds);
         }
 
         // GET: Medication/5/Details
