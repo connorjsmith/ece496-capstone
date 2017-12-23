@@ -9,6 +9,7 @@
     <Content Include="Frontend\Javascript\AnotherComponent.jsx" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HangFire" Version="1.6.17" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />

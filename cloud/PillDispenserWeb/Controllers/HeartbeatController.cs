@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Hangfire;
+using Hangfire.Common;
+using Microsoft.Extensions.Configuration;
 
 namespace PillDispenserWeb.Controllers
 {
@@ -15,13 +18,27 @@ namespace PillDispenserWeb.Controllers
         public SortedSet<string> LastMissingDeviceIds;
         public SortedSet<string> LastIterationDeviceIds;
         public SortedSet<string> CurrentIterationDeviceIds;
+        private RecurringJobManager heartbeatTaskManager;
 
-        public HeartbeatController(SortedSet<string> lastMissing = null, SortedSet<string> lastIteration = null, SortedSet<string> currentIteration = null)
+        public HeartbeatController(
+            IConfiguration Configuration,
+            IRecurringJobManager heartbeatTaskManager = null,
+            SortedSet<string> lastMissing = null, SortedSet<string> lastIteration = null, SortedSet<string> currentIteration = null)
         {
+            heartbeatTaskManager = heartbeatTaskManager ?? new RecurringJobManager();
             LastMissingDeviceIds = lastMissing ?? new SortedSet<string>();
             LastIterationDeviceIds = lastIteration ?? new SortedSet<string>();
             CurrentIterationDeviceIds = currentIteration ?? new SortedSet<string>();
+
+            int heartbeatIntervalMinutes = Int32.Parse(Configuration.GetSection("HeartbeatConfig")["MinuteInterval"]);
+            heartbeatTaskManager.AddOrUpdate(
+                "heartbeat", 
+                Job.FromExpression(() => HeartbeatTask()), 
+                Cron.MinuteInterval(heartbeatIntervalMinutes)
+            );
         }
+
+        [NonAction]
         public void HeartbeatTask()
         {
             lock (CurrentIterationDeviceIds)
@@ -43,16 +60,28 @@ namespace PillDispenserWeb.Controllers
 
         }
 
-        [HttpPost]
-        [Route("/")]
-        public JsonResult HeartbeatFromDevice(string deviceId)
+        [NonAction]
+        public ActionResult HeartbeatFromDevice(string deviceId)
         {
-            // TODO some sort of secret key to better authenticate these endpoints?
+            if (deviceId == null || deviceId.Length == 0)
+            {
+                return BadRequest();
+            }
+
             lock (CurrentIterationDeviceIds)
             {
                 CurrentIterationDeviceIds.Add(deviceId);
             }
             return Json("success");
+        }
+
+        [HttpPost]
+        [Route("")]
+        public ActionResult HeartbeatFromDevice()
+        {
+            // TODO some sort of secret key to better authenticate these endpoints?
+            string deviceId = Request.Form["deviceId"];
+            return HeartbeatFromDevice(deviceId);
         }
     }
 }

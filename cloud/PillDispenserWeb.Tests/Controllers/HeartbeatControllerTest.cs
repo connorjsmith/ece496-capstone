@@ -1,4 +1,7 @@
-﻿using Moq;
+﻿using Hangfire;
+using Hangfire.Common;
+using Microsoft.Extensions.Configuration;
+using Moq;
 using NUnit.Framework;
 using PillDispenserWeb.Controllers;
 using System;
@@ -21,7 +24,10 @@ namespace PillDispenserWeb.Tests.Controllers
         [SetUp]
         public void Setup()
         {
-            hbController = new HeartbeatController();
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection(new Dictionary<string, string> { { "HeartbeatConfig:MinuteInterval", "1000" } });
+            var mockHeartbeatJobController = new Mock<IRecurringJobManager>();
+            hbController = new HeartbeatController(builder.Build(), mockHeartbeatJobController.Object);
         }
         #endregion
 
