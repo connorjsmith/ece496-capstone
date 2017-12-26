@@ -11,14 +11,19 @@
     <link rel="stylesheet" href="@Url.Content("~/partials/css/sidemenu.css")" type="text/css" />
 </head>
 <body>
-    <div id="topmenu-container"> idk probably links to adjust user settings and logout</div>
+    <div id="main-spinner" style="background-color: white; position:fixed; top:0; bottom:0; left:0; right:0; z-index: 10000"></div>
+    <div id="topmenu-container"></div>
     <div id="sidemenu-container">
-        <div id="sidemenu-logo"> Logo thingy? </div>
+        <div id="sidemenu-logo"><h1 style="color: white">Logo</h1></div>
         <div id="react-sidemenu-target"></div>
     </div>
+    <script src="@Url.Content("~/dist/side_menu-dist.js")"></script>
     <div id="content">
         @RenderBody()
     </div>
-    <script src="@Url.Content("~/dist/side_menu-dist.js")"></script>
+    <script type="text/javascript">
+        console.log("Hiding element " + document.getElementById("main-spinner"));
+        document.getElementById("main-spinner").style.opacity = 0;
+    </script>
 </body>
 </html>

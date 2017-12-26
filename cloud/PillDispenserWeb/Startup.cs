@@ -9,6 +9,7 @@ using PillDispenserWeb.Models.Identity;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Hangfire;
 
 namespace PillDispenserWeb
 {
@@ -51,6 +52,8 @@ namespace PillDispenserWeb
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton(Configuration);
+
 
             services.AddMvc();
         }
@@ -70,6 +73,7 @@ namespace PillDispenserWeb
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionDataConnection"));
             });
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("ProductionDataConnection")));
         }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
@@ -85,7 +89,7 @@ namespace PillDispenserWeb
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DebugDataConnection"));
             });
-
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DebugDataConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,6 +114,7 @@ namespace PillDispenserWeb
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHangfireServer();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseStatusCodePagesWithReExecute("/Error/{0}"); // this will treat any nonsense URLs as if the user navigated to /Error/{error code}.

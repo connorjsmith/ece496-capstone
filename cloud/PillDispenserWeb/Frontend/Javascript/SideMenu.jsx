@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 // TODO: should change this to proper antd/lib/** imports to reduce dist.js size
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Avatar, Spin } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
 const SubMenu = Menu.SubMenu;
@@ -17,10 +17,15 @@ class Sider extends React.Component {
             <Menu
                 onClick={this.handleClick}
                 style={{ width: 240, minHeight: '100vh' }}
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['0']}
                 defaultOpenKeys={['sub1']}
                 mode="inline"
+                theme='dark'
             >
+                <Menu.Item key="0"><Icon type="appstore" />Dashboard</Menu.Item>
+            </Menu>
+        );
+        /*
                 <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
                     <MenuItemGroup key="g1" title="Item 1">
                         <Menu.Item key="1">Option 1</Menu.Item>
@@ -45,9 +50,24 @@ class Sider extends React.Component {
                     <Menu.Item key="11">Option 11</Menu.Item>
                     <Menu.Item key="12">Option 12</Menu.Item>
                 </SubMenu>
-            </Menu>
+                */
+    }
+}
+
+class Header extends React.Component {
+    render() {
+        return (
+            <div style={{ marginLeft: 'auto', marginRight: '16px', 'display': 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <span style={{ paddingRight: '12px' }}> Hello Dr. H. Timorabadi! </span>
+                <Avatar size='large' src="http://news.engineering.utoronto.ca/files/2016/10/hamidcircle.png" />
+            </div>
         );
     }
 }
-var mountNode = document.getElementById("react-sidemenu-target");
-ReactDOM.render(<Sider/>, mountNode)
+
+var siderMountNode = document.getElementById("react-sidemenu-target");
+var headerMountNode = document.getElementById("topmenu-container");
+var spinnerNode = document.getElementById("main-spinner");
+ReactDOM.render(<Spin style={{ position: 'relative', top: '-32px', transform: 'scale(2)' }} size="large" />, spinnerNode);
+ReactDOM.render(<Sider />, siderMountNode);
+ReactDOM.render(<Header />, headerMountNode);

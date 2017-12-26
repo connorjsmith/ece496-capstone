@@ -1,0 +1,9 @@
+﻿.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex-container-el {
+    margin: 15px;
+}
