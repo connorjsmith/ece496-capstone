@@ -65,4 +65,4 @@
 *.cs        eol=crlf
 *.sln       eol=crlf
 *.csproj    eol=crlf
-*.jsx      eol=clrf
+*.jsx      eol=crlf
