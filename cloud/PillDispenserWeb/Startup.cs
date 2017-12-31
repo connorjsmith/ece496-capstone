@@ -4,12 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PillDispenserWeb.Logic;
 using PillDispenserWeb.Models;
 using PillDispenserWeb.Models.Identity;
 using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Hangfire;
+using PillDispenserWeb.Logic.Impl;
+using System.Collections.Generic;
+using PillDispenserWeb.Configuration;
 
 namespace PillDispenserWeb
 {
@@ -51,8 +55,9 @@ namespace PillDispenserWeb
                 options.SlidingExpiration = true;
             });
 
+            services.Configure<HeartbeatConfig>(Configuration.GetSection("HeartbeatConfig"));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton(Configuration);
+            services.AddSingleton<IHeartbeat, HeartbeatImpl>();
 
 
             services.AddMvc();

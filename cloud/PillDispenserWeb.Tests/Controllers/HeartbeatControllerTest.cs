@@ -1,9 +1,12 @@
 ﻿using Hangfire;
 using Hangfire.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
+using PillDispenserWeb.Configuration;
 using PillDispenserWeb.Controllers;
+using PillDispenserWeb.Logic.Impl;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,20 +17,19 @@ namespace PillDispenserWeb.Tests.Controllers
     class HeartbeatControllerTest
     {
         #region Controller and Mocks
+        private HeartbeatImpl heartbeat;
         private HeartbeatController hbController;
-        private SortedSet<string> controllerLastIterationDeviceIds;
-        private SortedSet<string> controllerCurrentIterationDeviceIds;
-        private SortedSet<string> controllerLastMissingDeviceIds;
         #endregion
 
         #region Setup and Teardown
         [SetUp]
         public void Setup()
         {
-            var builder = new ConfigurationBuilder();
-            builder.AddInMemoryCollection(new Dictionary<string, string> { { "HeartbeatConfig:MinuteInterval", "1000" } });
             var mockHeartbeatJobController = new Mock<IRecurringJobManager>();
-            hbController = new HeartbeatController(builder.Build(), mockHeartbeatJobController.Object);
+            var mockConfig = new HeartbeatConfig { IntervalMinutes = Int32.MaxValue };
+            var mockOptions = Options.Create<HeartbeatConfig>(mockConfig);
+            heartbeat = new HeartbeatImpl(mockOptions, mockHeartbeatJobController.Object);
+            hbController = new HeartbeatController(heartbeat);
         }
         #endregion
 
@@ -38,38 +40,38 @@ namespace PillDispenserWeb.Tests.Controllers
             hbController.HeartbeatFromDevice("1");
             hbController.HeartbeatFromDevice("2");
             hbController.HeartbeatFromDevice("3");
-            Assert.That(hbController.CurrentIterationDeviceIds.Contains("1"));
-            Assert.That(hbController.CurrentIterationDeviceIds.Contains("2"));
-            Assert.That(hbController.CurrentIterationDeviceIds.Contains("3"));
-            Assert.AreEqual(hbController.CurrentIterationDeviceIds.Count, 3);
+            Assert.That(heartbeat.CurrentIterationDeviceIds.Contains("1"));
+            Assert.That(heartbeat.CurrentIterationDeviceIds.Contains("2"));
+            Assert.That(heartbeat.CurrentIterationDeviceIds.Contains("3"));
+            Assert.AreEqual(heartbeat.CurrentIterationDeviceIds.Count, 3);
 
-            hbController.HeartbeatTask();
-            Assert.That(hbController.LastIterationDeviceIds.Contains("1"));
-            Assert.That(hbController.LastIterationDeviceIds.Contains("2"));
-            Assert.That(hbController.LastIterationDeviceIds.Contains("3"));
-            Assert.AreEqual(hbController.LastIterationDeviceIds.Count, 3);
-            Assert.IsEmpty(hbController.CurrentIterationDeviceIds);
+            heartbeat.HeartbeatTask();
+            Assert.That(heartbeat.LastIterationDeviceIds.Contains("1"));
+            Assert.That(heartbeat.LastIterationDeviceIds.Contains("2"));
+            Assert.That(heartbeat.LastIterationDeviceIds.Contains("3"));
+            Assert.AreEqual(heartbeat.LastIterationDeviceIds.Count, 3);
+            Assert.IsEmpty(heartbeat.CurrentIterationDeviceIds);
 
             hbController.HeartbeatFromDevice("1");
             hbController.HeartbeatFromDevice("2");
-            Assert.That(hbController.CurrentIterationDeviceIds.Contains("1"));
-            Assert.That(hbController.CurrentIterationDeviceIds.Contains("2"));
-            Assert.AreEqual(hbController.CurrentIterationDeviceIds.Count, 2);
-            Assert.AreEqual(hbController.LastIterationDeviceIds.Count, 3);
+            Assert.That(heartbeat.CurrentIterationDeviceIds.Contains("1"));
+            Assert.That(heartbeat.CurrentIterationDeviceIds.Contains("2"));
+            Assert.AreEqual(heartbeat.CurrentIterationDeviceIds.Count, 2);
+            Assert.AreEqual(heartbeat.LastIterationDeviceIds.Count, 3);
 
-            hbController.HeartbeatTask();
-            Assert.That(hbController.LastIterationDeviceIds.Contains("1"));
-            Assert.That(hbController.LastIterationDeviceIds.Contains("2"));
-            Assert.AreEqual(hbController.LastIterationDeviceIds.Count, 2);
-            Assert.That(hbController.LastMissingDeviceIds.Contains("3"));
-            Assert.AreEqual(hbController.LastMissingDeviceIds.Count, 1);
+            heartbeat.HeartbeatTask();
+            Assert.That(heartbeat.LastIterationDeviceIds.Contains("1"));
+            Assert.That(heartbeat.LastIterationDeviceIds.Contains("2"));
+            Assert.AreEqual(heartbeat.LastIterationDeviceIds.Count, 2);
+            Assert.That(heartbeat.LastMissingDeviceIds.Contains("3"));
+            Assert.AreEqual(heartbeat.LastMissingDeviceIds.Count, 1);
 
-            hbController.HeartbeatTask();
-            Assert.That(hbController.LastMissingDeviceIds.Contains("1"));
-            Assert.That(hbController.LastMissingDeviceIds.Contains("2"));
-            Assert.AreEqual(hbController.LastMissingDeviceIds.Count, 2);
-            Assert.IsEmpty(hbController.CurrentIterationDeviceIds);
-            Assert.IsEmpty(hbController.LastIterationDeviceIds);
+            heartbeat.HeartbeatTask();
+            Assert.That(heartbeat.LastMissingDeviceIds.Contains("1"));
+            Assert.That(heartbeat.LastMissingDeviceIds.Contains("2"));
+            Assert.AreEqual(heartbeat.LastMissingDeviceIds.Count, 2);
+            Assert.IsEmpty(heartbeat.CurrentIterationDeviceIds);
+            Assert.IsEmpty(heartbeat.LastIterationDeviceIds);
 
         }
 
