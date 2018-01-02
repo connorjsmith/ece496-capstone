@@ -20,6 +20,11 @@ namespace PillDispenserWeb.Controllers
     {
         private readonly IAuthorizationService authorizationService;
         private readonly AppDataContext appDataContext;
+
+        //Our Account Sid and Auth Token at twilio.com/console
+        private const string accountSid = "AC36c72ac486918a5bb537d9e47d0051e0";
+        private const string authToken = "f3848665dd4cf439fcf7f8cb3b8b4706";
+
         public TwilioController(IAuthorizationService _authorizationService, AppDataContext _appDataContext)
         {
             authorizationService = _authorizationService;
@@ -28,9 +33,6 @@ namespace PillDispenserWeb.Controllers
         
         public void SendMissedNotificationUsingPatientObject (Patient patientObj)
         {
-            //Our Account Sid and Auth Token at twilio.com/console
-            const string accountSid = "AC36c72ac486918a5bb537d9e47d0051e0";
-            const string authToken = "f3848665dd4cf439fcf7f8cb3b8b4706";
             TwilioClient.Init(accountSid, authToken);
 
             var to = new PhoneNumber(patientObj.PhoneNumber);
@@ -40,9 +42,6 @@ namespace PillDispenserWeb.Controllers
                 body: "It works! - Shreyas");
 
             Console.WriteLine(message.Sid);
-
-
-            //return View("/Views/Twilio/Index.cshtml"); //Temporary for testing/learning purposes
         }
 
         // GET: /<controller>/
@@ -51,9 +50,6 @@ namespace PillDispenserWeb.Controllers
             //Look up patient object
             var patient = appDataContext.Patients.Find(patientID);
 
-            //Our Account Sid and Auth Token at twilio.com/console
-            const string accountSid = "AC36c72ac486918a5bb537d9e47d0051e0";
-            const string authToken = "f3848665dd4cf439fcf7f8cb3b8b4706";
             TwilioClient.Init(accountSid, authToken);
 
             var to = new PhoneNumber(patient.PhoneNumber);
@@ -63,9 +59,6 @@ namespace PillDispenserWeb.Controllers
                 body: "It works! - Shreyas");
 
             Console.WriteLine(message.Sid);
-
-
-            //return View("/Views/Twilio/Index.cshtml"); //Temporary for testing/learning purposes
         }
     }
 }
