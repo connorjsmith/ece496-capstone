@@ -34,7 +34,7 @@ namespace PillDispenserWeb.Tests.Controllers
         #endregion
 
         #region Tests
-        [Test]
+        [Test(Description = "Heartbeat endpoint manages active devices correctly")]
         public void Heartbeat_AddsToCurrentSet()
         {
             hbController.HeartbeatFromDevice("1");

@@ -10,7 +10,7 @@ namespace PillDispenserWeb.Models.Relations
     {
 
         #region Data Model
-        public IEnumerable<Recurrence> Recurrences { get; set; }
+        public List<Recurrence> Recurrences { get; set; }
         public Doctor PrescribingDoctor { get; set; }
         public Medication Medication { get; set; }
         public string PrescriptionId { get; set; }
@@ -23,7 +23,11 @@ namespace PillDispenserWeb.Models.Relations
             public DateTimeOffset Start { get; set; }
             public DateTimeOffset End { get; set; }
             public TimeSpan Interval { get; set; }
-            public IEnumerable<Dose> Doses { get; set; }
+            public List<Dose> Doses { get; set; }
+            public Recurrence()
+            {
+                Doses = new List<Dose>();
+            }
             public int GetExpectedNumberOfDoses(DateTimeOffset StartDate, DateTimeOffset EndDate)
             {
                 var rangeEnd = EndDate < End ? EndDate : End;
