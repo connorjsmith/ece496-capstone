@@ -1,7 +1,7 @@
 #include <WiFi.h>
 
-const char* ssid     = "Swaminarayan";
-const char* password = "master123";
+const char* ssid     = "Shreyas";
+const char* password = "capstone123";
 const char* host = "pillbox-capstone.azurewebsites.net";
 const char* gethost = "httpbin.org";
 
