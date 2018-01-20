@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Hangfire;
 using Hangfire.Common;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace PillDispenserWeb.Controllers
 {
@@ -83,5 +84,21 @@ namespace PillDispenserWeb.Controllers
             string deviceId = Request.Form["deviceId"];
             return HeartbeatFromDevice(deviceId);
         }
+
+        #if DEBUG
+        [HttpGet]
+        [Route("debug")]
+        public JsonResult Debug()
+        {
+            return Json(
+                new
+                {
+                    LastMissingDevices = LastMissingDeviceIds,
+                    LastIterationDevices = LastIterationDeviceIds,
+                    CurrentIterationDevices = CurrentIterationDeviceIds,
+                }
+            );
+        }
+        #endif
     }
 }
