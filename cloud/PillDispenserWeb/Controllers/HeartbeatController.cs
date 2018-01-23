@@ -22,7 +22,8 @@ namespace PillDispenserWeb.Controllers
             heartbeat = _heartbeat;
         }
 
-        [NonAction]
+        [HttpPost]
+        [Route("{deviceid}")]
         public ActionResult HeartbeatFromDevice(string deviceId)
         {
             if (deviceId == null || deviceId.Length == 0)
@@ -31,15 +32,6 @@ namespace PillDispenserWeb.Controllers
             }
             heartbeat.AddHeartbeat(deviceId);
             return Json("success");
-        }
-
-        [HttpPost]
-        [Route("")]
-        public ActionResult HeartbeatFromDevice()
-        {
-            // TODO some sort of secret key to better authenticate these endpoints?
-            string deviceId = Request.Form["deviceId"];
-            return HeartbeatFromDevice(deviceId);
         }
     }
 }

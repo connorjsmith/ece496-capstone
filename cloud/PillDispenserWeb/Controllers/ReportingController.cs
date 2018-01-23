@@ -25,6 +25,8 @@ namespace PillDispenserWeb.Controllers
             dataContext = _appDataContext;
         }
 
+
+        [NonAction]
         public JsonResult RecordMedicationEvent(string deviceId, string medicationId, string recurrenceId, DateTimeOffset time, bool wasTakenOnTime)
         {
             // TODO: authenticate
@@ -46,27 +48,15 @@ namespace PillDispenserWeb.Controllers
             return Json("success");
         }
 
-        [HttpPost("Taken")]
-        public JsonResult Taken()
+        [HttpPost("Taken/{deviceId}/{medicationId}/{recurrenceId}/{time}")]
+        public JsonResult Taken(string deviceId, string medicationId, string recurrenceId, DateTimeOffset time)
         {
-            string deviceId = Request.Form["deviceId"];
-            string medicationId = Request.Form["medicationId"];
-            string recurrenceId = Request.Form["recurrenceId"];
-            DateTimeOffset time = DateTimeOffset.Parse(Request.Form["time"]); // TODO: assert the device sends proper formatted string
             return RecordMedicationEvent(deviceId, medicationId, recurrenceId, time, true);
         }
 
-        [HttpPost("Missed")]
-        public JsonResult Missed()
+        [HttpPost("Missed/{deviceId}/{medicationId}/{recurrenceId}/{time}")]
+        public JsonResult Missed(string deviceId, string medicationId, string recurrenceId, DateTimeOffset time)
         {
-            //string deviceId = Request.Form["deviceId"];
-            //string medicationId = Request.Form["medicationId"];
-            //string recurrenceId = Request.Form["recurrenceId"];
-            //DateTimeOffset time = DateTimeOffset.Parse(Request.Form["time"]); // TODO: assert the device sends proper formatted string
-            string deviceId = "1";
-            string medicationId = "1";
-            string recurrenceId = "1";
-            DateTimeOffset time = DateTimeOffset.MaxValue;
             return RecordMedicationEvent(deviceId, medicationId, recurrenceId, time, false);
         }
     }
