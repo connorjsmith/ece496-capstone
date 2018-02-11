@@ -42,7 +42,7 @@ namespace PillDispenserWeb.Controllers
             // TODO: ensure the patient for the device was prescribed that medicationId and has a matching recurrenceId for it
             // TODO: Add a Dose record, associated it with the recurrence
             var dose = new Dose { AssociatedRecurrence = associatedRecurrence, TimeTaken = time, wasOnTime = wasTakenOnTime };
-            associatedRecurrence.Doses.Add(dose);
+            associatedRecurrence.Doses.Append(dose);
             dataContext.SaveChanges();
             
             return Json("success");

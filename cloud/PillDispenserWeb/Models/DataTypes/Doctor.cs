@@ -18,7 +18,7 @@ namespace PillDispenserWeb.Models.DataTypes
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public List<PatientDoctor> Patients { get; set; }
+        public IEnumerable<PatientDoctor> Patients { get; set; }
 
     }
 }
