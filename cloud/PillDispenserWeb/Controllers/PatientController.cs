@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using PillDispenserWeb.Models;
 using PillDispenserWeb.Models.Identity.Policies;
+using Microsoft.EntityFrameworkCore;
 
 namespace PillDispenserWeb.Controllers
 {
@@ -32,6 +33,23 @@ namespace PillDispenserWeb.Controllers
                 return NotFound();
             }
             return View(patient);
+        }
+
+        [HttpGet("{patientId}/CurrentSchedule")]
+        [AllowAnonymous]
+        public async Task<JsonResult> CurrentSchedule(long patientId)
+        {
+            var patient = appDataContext.Patients
+                .Include(pat => pat.Prescriptions)
+                    .ThenInclude(per => per.Recurrences)
+                .FirstOrDefault(pat => pat.PatientId == patientId);
+
+            var now = DateTimeOffset.Now;
+
+            var currSchedule = patient?.Prescriptions
+                .Where(per => per.Recurrences.Any(r => r.End > now && r.Start <= now));
+
+            return Json(currSchedule);
         }
     }
 }

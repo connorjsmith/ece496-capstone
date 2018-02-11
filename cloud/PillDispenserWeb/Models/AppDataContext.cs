@@ -11,6 +11,7 @@ namespace PillDispenserWeb.Models
         public DbSet<PatientDoctor> PatientDoctor { get; set; }
         public DbSet<Medication> Medications { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
+        public DbSet<Prescription.Recurrence> Recurrence { get; set; }
         public AppDataContext(DbContextOptions options) : base(options) { }
         public AppDataContext() { } // used for tests only
 

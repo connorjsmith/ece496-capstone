@@ -11,9 +11,10 @@ using System;
 namespace PillDispenserWeb.Migrations.AppData
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20180106212534_DosesWasOnTime")]
+    partial class DosesWasOnTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

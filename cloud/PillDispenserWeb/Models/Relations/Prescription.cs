@@ -24,6 +24,10 @@ namespace PillDispenserWeb.Models.Relations
             public DateTimeOffset End { get; set; }
             public TimeSpan Interval { get; set; }
             public IEnumerable<Dose> Doses { get; set; }
+            public Recurrence()
+            {
+                Doses = new List<Dose>();
+            }
             public int GetExpectedNumberOfDoses(DateTimeOffset StartDate, DateTimeOffset EndDate)
             {
                 var rangeEnd = EndDate < End ? EndDate : End;
