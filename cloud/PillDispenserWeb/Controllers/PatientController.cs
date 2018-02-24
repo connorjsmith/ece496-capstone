@@ -36,8 +36,9 @@ namespace PillDispenserWeb.Controllers
         }
 
         [HttpGet("{patientId}/CurrentSchedule")]
+        [Produces("application/json")]
         [AllowAnonymous]
-        public async Task<JsonResult> CurrentSchedule(long patientId)
+        public JsonResult CurrentSchedule(long patientId)
         {
             var patient = appDataContext.Patients
                 .Include(pat => pat.Prescriptions)

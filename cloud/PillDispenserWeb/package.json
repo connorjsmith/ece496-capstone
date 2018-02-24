@@ -1,7 +1,7 @@
 {
   "devDependencies": {
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
+    "react": "^16.2.0",
+    "react-dom":"^16.2.0",
     "webpack": "2.4.1",
     "babel-core": "6.24.1",
     "babel-loader": "7.0.0",
@@ -11,10 +11,10 @@
 
   },
   "dependencies": {
-    "antd": "^2.12.1",
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
-    "react-highcharts": "^15.0.0",
+    "antd": "^3.2.1",
+    "react": "^16.2.0",
+    "react-dom":"^16.2.0",
+    "react-highcharts": "^16.0.2",
     "css-loader": "^0.28.7",
     "style-loader": "^0.19.0"
   },

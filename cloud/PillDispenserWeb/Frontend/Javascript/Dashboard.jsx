@@ -4,6 +4,7 @@ import { AnotherComponent } from './AnotherComponent.jsx';
 import { CardContainer } from './CardContainer.jsx';
 import { PatientMedicationPieChartCard } from './PatientMedicationPieChartCard.jsx';
 import { PatientMedicationScatterPlot } from './PatientMedicationScatterPlot.jsx';
+import { PatientMedicationTimeSinceLastGauge } from './PatientMedicationTimeSinceLastGauge.jsx';
 
 // Render the component in the dom
 let pieConfig = {
@@ -44,11 +45,36 @@ let scatterConfig = {
     }]
 };
 
+let gaugeConfig = {
+    series: [{
+        type: 'pie',
+        name: null,
+        innerSize: '50%',
+        data: [
+            {
+                name: 'Taken',
+                y: 22
+            },
+            {
+                name: 'Missed',
+                y: 3
+            },
+            {
+                name: 'Upcoming',
+                y: 5,
+            }
+        ]
+    }]
+}
+
 
 ReactDOM.render(
     <CardContainer>
-        <PatientMedicationPieChartCard chartConfig={pieConfig} />
-        <PatientMedicationScatterPlot chartConfig={scatterConfig} />
+        <PatientMedicationPieChartCard chartConfig={pieConfig} cardConfig={{ width: 2, height: 2 }} />
+        <PatientMedicationScatterPlot chartConfig={scatterConfig} cardConfig={{ width: 2, height: 2 }}/>
+        <PatientMedicationTimeSinceLastGauge chartConfig={gaugeConfig} cardConfig={{ width: 3, height: 3 }}/>
+        <PatientMedicationTimeSinceLastGauge chartConfig={gaugeConfig} cardConfig={{ width: 3, height: 3 }}/>
+        <PatientMedicationTimeSinceLastGauge chartConfig={gaugeConfig} cardConfig={{ width: 3, height: 3 }}/>
     </CardContainer>,
     document.getElementById("container")                         // which will have several of these charts inside it
 );

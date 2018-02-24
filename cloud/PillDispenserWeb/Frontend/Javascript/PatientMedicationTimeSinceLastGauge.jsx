@@ -10,48 +10,49 @@ const commonCardConfig = {
     height: 1,
     width: 1
 }
-const commonChartConfig = {
+
+const gaugeConfig = {
     chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        animation: true,
-        plotShadow: false,
-        type: 'pie'
+        height: 300
     },
     credits: { enabled: false },
-    width: null,
-    height: null,
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    title: {
+        text: '30-day Medication Compliance'
+    },
+    subtitle: {
+        text: 'Sample data used'
     },
     plotOptions: {
         pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
             dataLabels: {
                 enabled: true,
-                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                distance: 0,
                 style: {
-                    color: (ReactHighcharts.Highcharts.theme && ReactHighcharts.Highcharts.theme.contrastTextColor) || 'black'
+                    fontWeight: 'bold',
+                    color: 'white'
                 }
-            }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%']
         }
-    },
+    }
 }
 
 let chartReflow = undefined;
 
-export class PatientMedicationPieChartCard extends React.Component {
+export class PatientMedicationTimeSinceLastGauge extends React.Component {
     constructor(props) {
         super(props);
         this.endpointURL = props.endpointURL;
-        this.chartConfig = JSON.parse(JSON.stringify(commonChartConfig));
+        this.chartConfig = JSON.parse(JSON.stringify(gaugeConfig));
         this.cardConfig = JSON.parse(JSON.stringify(commonCardConfig));
         this.state = {
             chartLoading: true
         };
         Object.assign(this.chartConfig, props.chartConfig);
         Object.assign(this.cardConfig, props.cardConfig);
+        this.chartConfig.chart.height = defaultCardHeight / this.cardConfig.height - 50; // subtract 50 for padding
     }
     onChartLoaded() {
         this.setState({ chartLoading: false });

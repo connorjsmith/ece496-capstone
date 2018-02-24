@@ -2,10 +2,13 @@
 import ReactHighcharts from 'react-highcharts';
 import { Card, Spin } from 'antd';
 
-const defaultCardWidth = 500;
+const defaultCardWidth = 1000;
+const defaultCardHeight = 1000;
 const commonCardConfig = {
     noHovering: false,
-    bordered: true
+    bordered: true,
+    height: 1,
+    width: 1
 }
 
 const scatterPlotConfig = {
@@ -81,7 +84,7 @@ export class PatientMedicationScatterPlot extends React.Component {
             chartLoading: true
         };
         Object.assign(this.chartConfig, props.chartConfig);
-        Object.assign(this.cardConfig, props.chartConfig);
+        Object.assign(this.cardConfig, props.cardConfig);
     }
     onChartLoaded() {
         this.setState({ chartLoading: false });
@@ -92,7 +95,10 @@ export class PatientMedicationScatterPlot extends React.Component {
             <Card
                 bordered={this.cardConfig.bordered}
                 noHovering={this.cardConfig.noHovering}
-                style={{ width: defaultCardWidth }}
+                style={{
+                    width: defaultCardWidth / this.cardConfig.width,
+                    height: defaultCardHeight / this.cardConfig.height
+                }}
             >
                 <Spin spinning={this.state.chartLoading}>
                     {highcharts}

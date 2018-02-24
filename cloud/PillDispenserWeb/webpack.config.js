@@ -7,7 +7,6 @@ var path = require("path");
 module.exports = {
     entry: {
         Dashboard: "./Frontend/Javascript/Dashboard.jsx",
-        antd: "./Frontend/Javascript/antd.jsx",
         side_menu: "./Frontend/Javascript/SideMenu.jsx"
     },
     output: {
