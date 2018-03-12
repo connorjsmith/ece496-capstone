@@ -59,5 +59,17 @@ namespace PillDispenserWeb.Controllers
         {
             return RecordMedicationEvent(deviceId, medicationId, recurrenceId, time, false);
         }
+
+        [HttpPost("Taken/{deviceId}/{medicationId}/{recurrenceId}")]
+        public JsonResult TakenNoTime(string deviceId, string medicationId, string recurrenceId)
+        {
+            return RecordMedicationEvent(deviceId, medicationId, recurrenceId, DateTimeOffset.Now, true);
+        }
+
+        [HttpPost("Missed/{deviceId}/{medicationId}/{recurrenceId}")]
+        public JsonResult MissedNoTime(string deviceId, string medicationId, string recurrenceId)
+        {
+            return RecordMedicationEvent(deviceId, medicationId, recurrenceId, DateTimeOffset.Now, false);
+        }
     }
 }
